@@ -1,0 +1,26 @@
+####################################################################
+#  THIS IS A SAMPLE TERRAFORM FILE COPIED AND PASTED FROM GOOGLE.  #
+#  NO SENSITIVE DATA/REAL INFRASTRUCTURE IS IN THIS FILE.          #
+####################################################################
+
+resource "aws_ebs_volume" "my_data" {
+  availability_zone = "${module.my_host.availability_zone}" # ensure the volume is created in the same AZ the docker host
+  type              = "gp2"                                 # i.e. "Amazon EBS General Purpose SSD"
+  size              = 25                                    # in GiB; if you change this in-place, you need to SSH over and run e.g. $ sudo resize2fs /dev/xvdh
+}
+
+module "my_host" {
+  # Available inputs: https://github.com/futurice/terraform-utils/tree/master/aws_ec2_ebs_docker_host#inputs
+  # Check for updates: https://github.com/futurice/terraform-utils/compare/v11.0...master
+  source = "git::ssh://git@github.com/futurice/terraform-utils.git//aws_ec2_ebs_docker_host?ref=v11.0"
+
+  hostname             = "my-host"
+  ssh_private_key_path = "~/.ssh/id_rsa"                # note that with a shared Terraform state, paths with "~" will become problematic
+  ssh_public_key_path  = "~/.ssh/id_rsa.pub"
+  data_volume_id       = "${aws_ebs_volume.my_data.id}" # attach our EBS data volume
+}
+
+output "host_ssh_command" {
+  description = "Run this command to check that the data volume got mounted"
+  value       = "ssh -i ${module.my_host.ssh_private_key_path} -o StrictHostKeyChecking=no ${module.my_host.ssh_username}@${module.my_host.public_ip} df -h"
+}
