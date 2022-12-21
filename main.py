@@ -31,14 +31,18 @@ def generate_commands(parsed_file):
             command += ' -target="{0}.{1}"'.format(resource_type, resource_name)
             num_targets += 1
             num_resources += 1
-    print('{0} TARGETS FOUND:\n---------------\n- {1} modules\n- {2} resources\n'.format(num_targets, num_modules, num_resources))
+    print('---------------')
+    print('{0} TARGETS FOUND:'.format(num_targets))
+    print('---------------')
+    print('- {0} module(s)'.format(num_modules))
+    print('- {0} resource(s)\n'.format(num_resources))
     return command
 
 # example command:
 # terraform apply -target="module.module_name" -target="resource_type.resource_name"
 def main():
     parsed_file = parse_file('./input.txt')
-    print('COMMAND TO RUN:\n---------------\n'+ generate_commands(parsed_file) + '\n')
+    print('---------------\nCOMMAND TO RUN:\n---------------\n'+ generate_commands(parsed_file) + '\n')
 
 if __name__ == '__main__':
     main()
