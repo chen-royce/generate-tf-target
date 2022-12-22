@@ -1,7 +1,7 @@
 # 🎯 Auto-generate TF statement with targets
 ## Instructions
 1. Download a copy of this project locally. Make sure you have Python3 installed.
-2. Replace the `input.txt` file with the Terraform code that you are looking to execute. You can copy and paste the entire file in and it'll work.
+2. Replace the `input.txt` file with the Terraform code that you are looking to execute. You can copy and paste the entire file in and it'll work. The only requirement is that you keep it as a `.txt` file.
 3. Run `main.py` to generate a `terraform apply` statement targeting the resources/modules that you put in `input.txt` file as specified in step 2.
 
 ### Note
