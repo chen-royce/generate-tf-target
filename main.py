@@ -22,13 +22,13 @@ def generate_commands(parsed_file):
     for line in parsed_file:
         if line[0] == 'module':
             module_name = omit_quotes(line[1])
-            command += ' -target="module.{0}"'.format(module_name)
+            command += ' -target=module.{0}'.format(module_name)
             num_targets += 1
             num_modules += 1
         if line[0] == 'resource':
             resource_type = omit_quotes(line[1])
             resource_name = omit_quotes(line[2])
-            command += ' -target="{0}.{1}"'.format(resource_type, resource_name)
+            command += ' -target={0}.{1}'.format(resource_type, resource_name)
             num_targets += 1
             num_resources += 1
     print('---------------')
